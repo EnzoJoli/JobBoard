@@ -1,0 +1,25 @@
+body { background: #E9E5E2; width: 100%; }
+
+#logo-container{
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  top: 0;
+  background-color: rgb(150, 112, 145);
+}
+#logo {
+  height: auto;
+  width: 20%;
+
+}
+
+.grid-container {
+  width: 100%;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.btnAd {
+  display: none;
+}

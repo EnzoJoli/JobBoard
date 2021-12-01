@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <title>Job Board</title>
+</head>
+
+<body>
+  <header>
+    <div id="logo-container">
+      <img src="./assets/logo.png" id="logo"/>
+  </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+      
+            <li class="nav-item">
+              <a class="nav-link" href="account.html">My account</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+</header>
+
+    <div >
+      <form id="container-form" action="localhost:3000/advertisement" method="POST">
+        <div class="form-group" >
+          <label for="titre">Titre</label>
+          <input type="text" class="form-control form-container" id="titre">
+        </div>
+        <div class="form-group">
+          <label for="descriptif">Descriptif</label>
+          <input type="text" class="form-control" id="descriptif">
+        </div>
+        <div class="form-group">
+          <label for="contrat">Contrat</label>
+          <input type="text" class="form-control" id="contrat">
+        </div>
+        <div class="form-group">
+          <label for="entreprise">Entreprise</label>
+          <input type="text" class="form-control" id="entreprise">
+        </div>
+        <div class="form-group">
+          <label for="lieu">Lieu</label>
+          <input type="text" class="form-control" id="lieu">
+        </div>
+        <div class="form-group">
+          <label for="image">Lien du logo</label>
+          <input type="text" class="form-control" id="image">
+        </div>
+        <label for="start">Date :</label>
+        <input type="date" id="date"
+       value="2021-12-22">
+       <label for="start">Rémunération :</label>
+        <input type="number" id="remuneration">
+        <input name="submit" type="button" value="Submit" class="submit">
+      </form>
+    </div>
+    
+    <script>
+
+  $(function () {
+    $(".submit").click(function (event) {
+      var titre = $("#titre").val();
+      var descriptif = $("#descriptif").val();
+      var contrat = $("#contrat").val();
+      var entreprise = $("#entreprise").val();
+      var lieu = $("#lieu").val();
+      var Image = $("#image").val();
+      var date = $("#date").val();
+      var remuneration = $("#remuneration").val();
+      console.log(image);
+                
+                 var dataString = 'Titre='+ titre +'&Descriptif='+ descriptif + '&Contrat='+ contrat + '&Entreprise=' + entreprise + '&Lieu=' + lieu + '&Image=' + Image + '&Date=' + date + '&Remuneration=' + remuneration;
+                 $.ajax({
+                    type: 'POST',
+                    url: '/advertisement',
+                    data: dataString
+                  
+                 }).done(function (res){
+                  window.location.assign('account.html');
+             });  
+             });
+            });
+    </script>
+          
+
+</body>
+    </html>

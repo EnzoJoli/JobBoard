@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <title>Job Board</title>
+</head>
+
+<body>
+        <header>
+          <div id="logo-container">
+            <img src="./assets/logo.png" id="logo"/>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                  </li>
+            
+                  <li class="nav-item">
+                    <a class="nav-link" href="account.html">My account</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </header>
+
+    <div class="grid-container">
+        
+    </div>
+    
+    <script>
+      function learnmore(i, id) {
+        var path = 'http://localhost:3000/advertisement/' + i;
+        $.get(path , {}, function(data) {
+            document.getElementById(id).innerHTML = data.Descriptif;
+          });
+      }
+
+      function create_array(data) {
+        var add = []
+        for (var i = 1; i < data.length + 1; i++)
+          add.push("add" + i);
+        return add;
+      }
+
+      $.get('http://localhost:3000/advertisement', {}, function(data){
+        var ad = create_array(data);
+        var i = 1;
+        data.forEach((element) => {
+          console.log(element.Image);
+          const container = document.querySelector('.grid-container');
+            container.innerHTML += `<div class="card" style="width: 100%">
+                <img src="${element.Image}" class="card-img-top" alt="...">
+                <div class="card-body" id="test">
+                    <h5 class="card-title">${element.Titre}</h5>
+                    <p class="card-text">${element.Contrat}</p>
+                    <p class="card-text">${element.Lieu}</p>
+                    <p id="${ad[i]}"></p>
+                    <a  class="btn btn-primary" onclick="learnmore(${i},'${ad[i]}')">Learn more</a>
+                    <a href="apply.html" class="btn btn-primary" >Apply</a>
+                </div>
+            </div>`
+            i++;
+          })
+   });
+    </script>
+
+</body>
+    </html>

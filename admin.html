@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <title>Job Board</title>
+</head>
+
+<body>
+        <header>
+          <div id="logo-container">
+            <img src="./assets/logo.png" id="logo"/>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                  </li>
+            
+                  <li class="nav-item">
+                    <a class="nav-link" href="account.html">My account</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </header>
+
+    <div id="myModal" class="modal">
+    <div class="modal-content">
+      <b id="modify"></b>
+    <form id="formElement">
+      <div class="form-group" >
+        <label for="Lastname">Nom</label>
+        <input type="text" class="form-control form-container" id="Lastname" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group">
+        <label for="name">Prénom</label>
+        <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group">
+        <label for="email">Adresse e-mail</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+      </div>
+      <br>
+     </form>
+    </div>
+  </div>
+
+    <div class="grid-container">
+    </div>
+
+    <div class="utilisateurs">  
+    </div>
+    
+    <script>
+      function deleteAdvertisement(i, id) {
+        var path = 'http://localhost:3000/advertisement/' + i;
+
+      $.ajax({
+      url: path,
+      type: 'DELETE',
+      dataType: 'json',
+      data: {
+          id: id
+      },
+      success: function(response) {
+        document.getElementById(id).innerHTML = "Advertisement has been deleted";
+          console.log("test");
+      },
+      error: function(response) {
+          console.log("error");
+      }
+  });
+      }
+
+      function create_array(data) {
+        var add = []
+        for (var i = 1; i < data.length + 1; i++)
+          add.push("add" + i);
+        return add;
+      }
+
+      function showForm(id,Lname, Fname) {
+        document.getElementById('myModal').style.display = 'block';
+        document.getElementById('modify').innerHTML = "Modify "+ Lname + " " + Fname + " account";
+    }
+
+      $.get('http://localhost:3000/advertisement', {}, function(data){
+        var ad = create_array(data);
+        var i = 1;
+        data.forEach((element) => {
+          console.log(element.Image);
+          const container = document.querySelector('.grid-container');
+            container.innerHTML += `<div class="card" style="width: 100%">
+                <img src="${element.Image}" class="card-img-top" alt="...">
+                <div class="card-body" id="test">
+                    <h5 class="card-title">${element.Titre}</h5>
+                    <p id="${ad[i]}"></p>
+                    <a class="btn btn-primary" onclick="deleteAdvertisement(${i},'${ad[i]}')">Delete</a>
+                </div>
+            </div>`
+            i++;
+          })
+   });
+
+   $.get('http://localhost:3000/utilisateur', {}, function(members){
+        var utilisateur = create_array(members);
+        var j = 1;
+        members.forEach((element) => {
+          const container = document.querySelector('.utilisateurs');
+            container.innerHTML += `<div class="card" style="width: 20%">
+                <div class="card-body" id="test">
+                    <h5 class="card-title">${element.Nom} ${element.Prenom}</h5>
+                    <b class="card-title">${element.email}</b>
+                    <p id="${utilisateur[j]}"></p>
+                    <a  class="btn btn-primary" onclick="deleteAdvertisement(${j},'${utilisateur[j]}')">Delete</a>
+                    <a  class="btn btn-primary" onclick="showForm('${utilisateur[j]}', '${element.Nom}', '${element.Prenom}')">Modify</a>
+                </div>
+            </div>`
+            j++;
+          })
+   });
+    </script>
+
+</body>
+    </html>
